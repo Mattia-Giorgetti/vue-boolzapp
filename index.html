@@ -44,7 +44,7 @@
                         </div>
                         <main class="contacts_section">
                             <ul>
-                                <li :class="index === activeIndex ? 'active_chat' : ''" class="contact_item border-bottom p-2" v-for="(item, index) in contacts">
+                                <li @click="setChat(index)" :class="index === activeIndex ? 'active_chat' : ''" class="contact_item border-bottom p-2" v-for="(item, index) in contacts">
                                     <div class="contact_info d-flex align-items-center gap-1">
                                         <img class="proPic" :src="imgPath+contacts[index].avatar+imgExt" alt="user_avatar">
                                         <div class="name_plus_time ps-2">
@@ -61,9 +61,9 @@
                     <div class="col-7 chat_section p-0">
                         <header class="chat_header d-flex justify-content-between p-1">
                             <div class="header_info d-flex align-items-center gap-1">
-                                <img class="proPic" :src="imgPath+contacts[0].avatar+imgExt" alt="user_avatar">
+                                <img class="proPic" :src="imgPath+contacts[activeIndex].avatar+imgExt" alt="user_avatar">
                                 <div class="name_plus_time">
-                                    <h2 class="user_name mb-0">{{ contacts[0].name }}</h2>
+                                    <h2 class="user_name mb-0">{{ contacts[activeIndex].name }}</h2>
                                     <span class="last_access">Ultimo accesso:</span>
                                 </div>
                             </div>
@@ -74,13 +74,14 @@
                             </div>
                         </header>
                         <main class="chat_main_section">
-                                <p class="msg_received my-3">{{contacts[0].messages[0].message}}</p>
-                                <p class="msg_received my-3">{{contacts[0].messages[1].message}}</p>
-                                <p class="msg_sent my-3">{{contacts[0].messages[2].message}}</p>
+                                <div class="my-3 d-flex flex-column" :class="value.status === 'received' ? 'msg_received' : 'msg_sent' " v-for="(value, index) in contacts[activeIndex].messages">
+                                    <p class="mb-0">{{value.message}}</p>
+                                    <span class="msg_time">{{value.date}}</span>
+                                </div>
                         </main>
                         <footer class="chat_footer">
                             <i class="fa-regular fa-face-smile"></i>
-                            <input type="text" placeholder="Scrivi un messaggio" v-model="newMessage">
+                            <input type="text" placeholder="Scrivi un messaggio" v-model="newMessage" @keyup.enter="sendAMessage()">
                             <i class="fa-solid fa-microphone"></i>
                         </footer>
                     </div>

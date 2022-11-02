@@ -186,6 +186,19 @@ const app = createApp({
 		}
 	},
 	methods: {
+        setChat(i) {
+            this.activeIndex = i;
+        },
+        sendAMessage() {
+            this.contacts[this.activeIndex].messages.push({message: this.newMessage, status: 'sent'});
+            this.newMessage = '';
+
+            setTimeout(() => {
+                this.contacts[this.activeIndex].messages.push({message: 'Risposta Random', status: 'received'})
+            }, 1500);
+        },
+        
+
 
 	},
 	computed: {
