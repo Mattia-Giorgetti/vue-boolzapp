@@ -1,0 +1,118 @@
+#wrapper {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(rgb(60, 137, 125), rgb(210,214,210));
+}
+.contact_section {
+    height: calc(100vh - 3rem);
+    background-color: white;
+}
+.chat_section {
+    border-left: 1px solid lightgray;
+    height: calc(100vh - 3rem);
+    background-image: url(../img/mine.jpg);
+}
+.contact_header, .chat_header {
+    width: 100%;
+    height: 60px;
+    background-color: rgb(231, 231, 231);
+    padding: 0;
+}
+.proPic {
+    width: 60px;
+    border-radius: 50%;
+    padding: 5px;
+}
+.user_name {
+    font-size: 1rem;
+}
+.header_icons i {
+    color: gray;
+    font-size: 1.3rem;
+}
+.last_access, .last_message {
+    color: gray;
+    font-size: .8rem;
+}
+.notifiche_desktop {
+    width: 100%;
+    height: 70px;
+    background-color: #96d2ee ;
+    display: flex;
+    align-items: center;
+}
+.notifiche_desktop span {
+    color: gray;
+    font-size: 0.8rem;
+    text-decoration: underline;
+}
+.bell_img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: white;
+    color: #96d2ee;
+    font-size: 1.2rem;
+}
+.input_container {
+    background-color: rgb(231, 231, 231);
+    padding: 0.4rem;
+} 
+main.contacts_section {
+    width: 100%;
+    height: calc(100vh - 184px - 3rem);
+    overflow-y: auto;
+} 
+ul {
+    list-style: none;
+    padding-left: 0rem;
+}
+.contact_item:hover {
+    background-color: rgb(231, 231, 231);
+}
+.chat_main_section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100vh - 130px - 3rem);
+    padding-top: 4rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    overflow-y: auto;
+}
+.chat_footer {
+    height: 70px;
+    width: 100%;
+    background-color: rgb(240, 236, 231);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1.5rem;
+    color: gray;
+}
+.chat_footer input {
+    width: 80%;
+    height: 50px;
+    font-size: 1rem;
+}
+
+.msg_received {
+    background-color: rgb(216, 247, 182);
+    width: 250px;
+    padding: 1rem;
+    border-radius: 10px;
+    align-self: flex-end;
+}
+.msg_sent {
+    background-color: white;
+    width: 250px;
+    padding: 1rem;
+    border-radius: 10px;
+    align-items: flex-start;
+}
+.active_chat {
+    background-color: #96d2ee;
+}
