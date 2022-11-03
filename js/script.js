@@ -3,8 +3,11 @@ const {createApp} = Vue;
 const app = createApp({
 	data(){
 		return {
+            newContact: '',
+            inputReveal: false,
             activeIndex: 0,
             newMessage: '',
+            searchBarContent: '',
             imgPath: './img/avatar',
             imgExt: '.jpg',
             user: {
@@ -186,26 +189,65 @@ const app = createApp({
 		}
 	},
 	methods: {
-        setChat(i) {
-            this.activeIndex = i;
+        setChat(id) {
+            this.activeIndex = this.contacts.findIndex((item) => {
+                return item.id === id;
+            })
         },
         sendAMessage() {
-            this.contacts[this.activeIndex].messages.push({message: this.newMessage, status: 'sent'});
+            const d = new Date();
+            let newDate = d.toLocaleTimeString('it-IT');
+            if(this.newMessage.length > 0){
+                this.contacts[this.activeIndex].messages.push({
+                    message: this.newMessage,
+                    status: 'sent',
+                    date: newDate
+                    });
+
+                    setTimeout(() => {
+                        this.contacts[this.activeIndex].messages.push({message: 'Risposta Random', status: 'received', date: newDate})
+                    }, 1500);
+            }
             this.newMessage = '';
-
-            setTimeout(() => {
-                this.contacts[this.activeIndex].messages.push({message: 'Risposta Random', status: 'received'})
-            }, 1500);
         },
+        getLastItem(item) {
+            const arrayReceived = item.messages.filter((message) => {
+                return message.status === 'received';
+            })
+            return arrayReceived[arrayReceived.length - 1];
+        },
+        toggleInput() {
+            this.inputReveal = !this.inputReveal;
+        },
+        // addNewChat() {
+        //     if(this.newContact.length > 0){
+        //         this.contacts.push({
+        //             name: this.newContact,
+        //             id: this.contacts.id++,
+        //             avatar: 'img',
+        //             visible: true,
+        //             messages: []
+        //         });
+        //         this.newContact = '';
+        //         this.inputReveal = false;
+        //     }
+        // }
+
         
-
-
+ 
+       
 	},
 	computed: {
+        filteredContacts(){
+            return this.contacts.filter((item) => {
+                const name = item.name.toLowerCase();
+                return name.includes(this.searchBarContent.toLowerCase());
+            })
+        }
 
 	},
 	mounted(){
-		// console.log('I am mounted');
+		
 	},
 });
 app.mount('#app');

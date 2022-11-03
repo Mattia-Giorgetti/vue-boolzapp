@@ -1,7 +1,7 @@
 #wrapper {
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(rgb(60, 137, 125), rgb(210,214,210));
+    background: linear-gradient(180deg,rgb(60, 137, 125) 23%, rgb(210,214,210)23%);
 }
 .contact_section {
     height: calc(100vh - 3rem);
@@ -30,6 +30,10 @@
     color: gray;
     font-size: 1.3rem;
 }
+.header_icons i:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
 .last_access, .last_message {
     color: gray;
     font-size: .8rem;
@@ -45,6 +49,10 @@
     color: gray;
     font-size: 0.8rem;
     text-decoration: underline;
+}
+.notifiche_desktop span:hover {
+    cursor: pointer;
+    color: blue;
 }
 .bell_img {
     display: flex;
@@ -90,13 +98,20 @@ ul {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: gray;
+}
+.chat_footer span:hover {
+    cursor: pointer;
+    opacity: 0.8;
 }
 .chat_footer input {
     width: 80%;
     height: 50px;
     font-size: 1rem;
+}
+.send_msg_icon {
+    color: dodgerblue;
 }
 
 .msg_received {
@@ -104,20 +119,47 @@ ul {
     width: 300px;
     padding: 0.6rem;
     border-radius: 10px;
-    align-self: flex-end;
+    align-self: flex-start;
 }
 .msg_sent {
     background-color: rgb(216, 247, 182);
     width: 300px;
     padding: 0.6rem;
     border-radius: 10px;
-    align-items: flex-start;
+    align-self: flex-end;
 }
 .active_chat {
     background-color: #96d2ee;
 }
 .msg_time {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     color: gray;
     align-self: flex-end;
 }
+.no_match {
+    color: gray;
+    text-align: center;
+    padding: 3rem;
+}
+.input_field {
+    position: absolute;
+    top: 4rem;
+    right: 2rem;
+    width: 300px;
+    height: 100px;
+    background-color: rgb(240, 236, 231);
+    border-radius: 10px;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+    box-shadow: 3px 3px 5px gray;
+}
+.slide-fade-enter-active {
+    transition: all 0.3s ease-out;
+  }
+  .slide-fade-enter-from,
+  .slide-fade-leave-to {
+    transform: translateX(20px);
+    opacity: 0;
+  }

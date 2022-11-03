@@ -18,16 +18,22 @@
 
                     <!-- PARTE SINISTRA  -->
                     <div class="col-5 contact_section p-0">
-                        <header class="contact_header d-flex justify-content-between p-1">
+                        <header class="contact_header d-flex justify-content-between p-1 position-relative">
                             <div class="header_info d-flex align-items-center gap-1">
                                 <img class="proPic" :src="imgPath+user.avatar+imgExt" alt="user_avatar">
                                 <h2 class="user_name">{{ user.name }}</h2>
                             </div>
                             <div class="header_icons d-flex align-items-center gap-3 p-3">
                                 <span><i class="fa-solid fa-circle-notch"></i></span>
-                                <span><i class="fa-solid fa-message"></i></span>
+                                <span @click="toggleInput"><i class="fa-solid fa-message"></i></span>
                                 <span><i class="fa-solid fa-ellipsis-vertical"></i></span>
                             </div>
+                            <Transition name="slide-fade">
+                                <div class="input_field" v-show="inputReveal">
+                                    <input class="rounded-1 w-75" type="text" placeholder="Inizia Nuova Chat" v-model="newContact" @keyup.enter="addNewChat()">
+                                </div>
+                            </Transition>
+
                         </header>
                         <div class="notifiche_desktop p-2">
                             <div class="bell_img me-3">
@@ -40,20 +46,22 @@
                         </div>
                         <div class="input-group input-group-sm mb-2 input_container">
                             <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fa-solid fa-magnifying-glass"></i></span>
-                            <input type="text" class="form-control" placeholder="Cerca o inizia una nuova chat" >
+                            <input type="text" class="form-control" placeholder="Cerca chat" v-model.trim="searchBarContent">
                         </div>
                         <main class="contacts_section">
-                            <ul>
-                                <li @click="setChat(index)" :class="index === activeIndex ? 'active_chat' : ''" class="contact_item border-bottom p-2" v-for="(item, index) in contacts">
+                            <ul v-if="filteredContacts.length > 0">
+                                <li @click="setChat(item.id)" :class="{'active_chat' : index===activeIndex}" class="contact_item border-bottom p-2" v-for="(item, index) in filteredContacts" :key="item.id">
                                     <div class="contact_info d-flex align-items-center gap-1">
-                                        <img class="proPic" :src="imgPath+contacts[index].avatar+imgExt" alt="user_avatar">
+                                        <img class="proPic" :src="imgPath+item.avatar+imgExt" alt="user_avatar">
                                         <div class="name_plus_time ps-2">
-                                            <h2 class="user_name mb-0">{{ contacts[index].name }}</h2>
-                                            <span class="last_message">Ultimo messaggio inviato</span>
+                                            <h2 class="user_name mb-0">{{ item.name }}</h2>
+                                            <span class="last_message">{{getLastItem(item).message}}</span>
                                         </div>
+                                        <p class="ms-auto last_access">{{getLastItem(item).date}}</p>
                                     </div>
                                 </li>
                             </ul>
+                            <div v-else class="no_match">Nessuna Corrispondenza</div>
                         </main>
                     </div>
 
@@ -64,7 +72,7 @@
                                 <img class="proPic" :src="imgPath+contacts[activeIndex].avatar+imgExt" alt="user_avatar">
                                 <div class="name_plus_time">
                                     <h2 class="user_name mb-0">{{ contacts[activeIndex].name }}</h2>
-                                    <span class="last_access">Ultimo accesso:</span>
+                                    <span class="last_access">Ultimo accesso: {{getLastItem(contacts[activeIndex]).date}}</span>
                                 </div>
                             </div>
                             <div class="header_icons d-flex align-items-center gap-3 p-3">
@@ -74,21 +82,21 @@
                             </div>
                         </header>
                         <main class="chat_main_section">
-                                <div class="my-3 d-flex flex-column" :class="value.status === 'received' ? 'msg_received' : 'msg_sent' " v-for="(value, index) in contacts[activeIndex].messages">
+                                <div class="my-3 d-flex flex-column position-relative" :class="value.status === 'received' ? 'msg_received' : 'msg_sent' " v-for="(value, index) in contacts[activeIndex].messages" :key="index">
                                     <p class="mb-0">{{value.message}}</p>
                                     <span class="msg_time">{{value.date}}</span>
                                 </div>
                         </main>
                         <footer class="chat_footer">
-                            <i class="fa-regular fa-face-smile"></i>
-                            <input type="text" placeholder="Scrivi un messaggio" v-model="newMessage" @keyup.enter="sendAMessage()">
-                            <i class="fa-solid fa-microphone"></i>
+                            <span><i class="fa-regular fa-face-smile"></i></span>
+                            <input type="text" placeholder="Scrivi un messaggio" v-model.trim="newMessage" @keyup.enter="sendAMessage()">
+                            <span class="send_msg_icon" @click="sendAMessage()" v-if="newMessage.length > 0"><i class="fa-solid fa-paper-plane"></i></span>
+                            <span><i class="fa-solid fa-microphone"></i></span>
                         </footer>
+                        
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
 
