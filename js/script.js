@@ -3,6 +3,7 @@ const {createApp} = Vue;
 const app = createApp({
 	data(){
 		return {
+            dark: false,
             counter: 8,
             showChat: false,
             newContact: '',
@@ -242,10 +243,13 @@ const app = createApp({
         toggleInput() {
             this.inputReveal = !this.inputReveal;
         },
+        toggleTheme(){
+            this.dark = !this.dark;
+        },
         addNewChat() {
             if(this.newContact.length > 0){
                 this.counter++
-                this.contacts.push({
+                this.contacts.unshift({
                     name: this.newContact,
                     id: this.counter,
                     avatar: '_io',

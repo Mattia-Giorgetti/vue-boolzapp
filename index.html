@@ -12,18 +12,19 @@
 </head>
 <body>
     <div id="app">
-        <div id="wrapper">
+        <div class="wrapper" :class="{'wrapper_dark' : this.dark ===true}">
             <div class="container-sm">
                 <div class="row pt-4">
 
                     <!-- PARTE SINISTRA  -->
                     <div class="col-12 col-sm-12 col-md-5 d-md-block contact_section p-0" :class="{'d-none' : showChat, 'd-sm-none' : showChat}">
-                        <header class="contact_header d-flex justify-content-between p-1 position-relative">
+                        <header class="contact_header d-flex justify-content-between p-1 position-relative" :class="{'contact_header_dark' : this.dark === true}">
                             <div class="header_info d-flex align-items-center gap-1">
                                 <img class="proPic" :src="imgPath+user.avatar+imgExt" alt="user_avatar">
-                                <h2 class="user_name">{{ user.name }}</h2>
+                                <h2 class="user_name" :class="{'text-white' : this.dark=== true}">{{ user.name }}</h2>
                             </div>
                             <div class="header_icons d-flex align-items-center gap-3 p-3">
+                                <span @click="toggleTheme"><i class="fa-solid fa-moon"></i></span>
                                 <span><i class="fa-solid fa-circle-notch"></i></span>
                                 <span @click="toggleInput"><i class="fa-solid fa-message"></i></span>
                                 <span><i class="fa-solid fa-ellipsis-vertical"></i></span>
@@ -35,8 +36,8 @@
                             </Transition>
 
                         </header>
-                        <div class="notifiche_desktop p-2">
-                            <div class="bell_img me-3">
+                        <div class="notifiche_desktop p-2" :class="{'notifiche_desktop_dark' : this.dark === true}">
+                            <div class="bell_img me-3" :class="{'bell_img_dark' : this.dark===true}">
                                 <i class="fa-solid fa-bell-slash"></i>
                             </div>
                             <div>
@@ -44,13 +45,13 @@
                                 <span>Attiva notifiche desktop</span>
                             </div>
                         </div>
-                        <div class="input-group input-group-sm mb-2 input_container">
+                        <div class="input-group input-group-sm input_container" :class="{'input_container_dark' : this.dark===true}">
                             <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fa-solid fa-magnifying-glass"></i></span>
                             <input type="text" class="form-control" placeholder="Cerca chat" v-model.trim="searchBarContent">
                         </div>
-                        <main class="contacts_section">
+                        <main class="contacts_section" :class="{'contact_section_dark' : this.dark===true}">
                             <ul v-if="filteredContacts.length > 0">
-                                <li @click="setChat(item.id)" :class="{'active_chat' : item.id === activeID}" class="contact_item border-bottom p-2" v-for="(item, index) in filteredContacts" :key="item.id">
+                                <li @click="setChat(item.id)" :class="{'text-white' : this.dark===true,'active_chat' : item.id === activeID, 'contact_item_dark' : this.dark === true, 'active_chat_dark' : item.id === activeID && this.dark === true}" class="contact_item border-bottom p-2" v-for="(item, index) in filteredContacts" :key="item.id">
                                     <div class="contact_info d-flex align-items-center gap-1">
                                         <img class="proPic" :src="imgPath+item.avatar+imgExt" alt="user_avatar">
                                         <div class="name_plus_time ps-2">
@@ -66,12 +67,12 @@
                     </div>
 
                     <!-- PARTE DESTRA  -->
-                    <div class="col-12 col-sm-12 col-md-7 d-md-block chat_section p-0" :class="{'d-none' : !showChat, 'd-sm-none' : !showChat}">
-                        <header class="chat_header d-flex justify-content-between p-1">
+                    <div class="col-12 col-sm-12 col-md-7 d-md-block chat_section p-0" :class="{'d-none' : !showChat, 'd-sm-none' : !showChat, 'chat_section_dark' : this.dark === true}">
+                        <header class="chat_header d-flex justify-content-between p-1" :class="{'chat_header_dark' : this.dark===true}">
                             <div class="header_info d-flex align-items-center gap-1">
                                 <img class="proPic" :src="imgPath+contacts[activeIndex].avatar+imgExt" alt="user_avatar">
                                 <div class="name_plus_time">
-                                    <h2 class="user_name mb-0">{{ contacts[activeIndex].name }}</h2>
+                                    <h2 class="user_name mb-0":class="{'text-white' : this.dark=== true}">{{ contacts[activeIndex].name }}</h2>
                                     <span class="last_access">Ultimo accesso: {{getLastDate(contacts[activeIndex])}}</span>
                                 </div>
                             </div>
@@ -83,13 +84,13 @@
                             </div>
                         </header>
                         <main class="chat_main_section">
-                                <div v-if="contacts[activeIndex].messages.length > 0" class="my-3 d-flex flex-column position-relative" :class="value.status === 'received' ? 'msg_received' : 'msg_sent' " v-for="(value, index) in contacts[activeIndex].messages" :key="index" ref="msg">
+                                <div v-if="contacts[activeIndex].messages.length > 0" class="my-3 d-flex flex-column" :class="{'msg_received' : value.status === 'received', 'msg_sent': value.status === 'sent', 'msg_sent_dark' : this.dark ===true && value.status === 'sent'}" v-for="(value, index) in contacts[activeIndex].messages" :key="index" ref="msg">
                                     <p class="mb-0">{{value.message}}</p>
                                     <span class="msg_time">{{value.date}}</span>
                                 </div>
                                 <div v-else class="start_chat">Inizia Nuova Chat</div>
                         </main>
-                        <footer class="chat_footer">
+                        <footer class="chat_footer" :class="{'chat_footer_dark' : this.dark===true}">
                             <span><i class="fa-regular fa-face-smile"></i></span>
                             <input type="text" placeholder="Scrivi un messaggio" v-model.trim="newMessage" @keyup.enter="sendAMessage()">
                             <span class="send_msg_icon" @click="sendAMessage()" v-if="newMessage.length > 0"><i class="fa-solid fa-paper-plane"></i></span>

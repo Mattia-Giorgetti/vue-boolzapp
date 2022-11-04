@@ -1,22 +1,35 @@
-#wrapper {
+.wrapper {
     width: 100vw;
     height: 100vh;
     background: linear-gradient(180deg,rgb(60, 137, 125) 23%, rgb(210,214,210)23%);
 }
+.wrapper_dark {
+    background: linear-gradient(180deg,rgb(28, 63, 58) 23%, rgb(139, 142, 139)23%);
+}
 .contact_section {
     height: calc(100vh - 3rem);
     background-color: white;
+}
+.contact_section_dark {
+    background-color: black;
 }
 .chat_section {
     border-left: 1px solid lightgray;
     height: calc(100vh - 3rem);
     background-image: url(../img/mine.jpg);
 }
+.chat_section_dark {
+    border-left: 1px solid gray;
+    height: calc(100vh - 3rem);
+}
 .contact_header, .chat_header {
     width: 100%;
     height: 60px;
     background-color: rgb(231, 231, 231);
     padding: 0;
+}
+.contact_header_dark, .chat_header_dark {
+    background-color: rgb(61, 61, 61);
 }
 .proPic {
     width: 60px;
@@ -45,6 +58,11 @@
     display: flex;
     align-items: center;
 }
+.notifiche_desktop_dark {
+    background-color: #4217cf;
+    color: white;
+    font-size: 0.8rem;
+}
 .notifiche_desktop span {
     color: gray;
     font-size: 0.8rem;
@@ -65,13 +83,19 @@
     color: #96d2ee;
     font-size: 1.2rem;
 }
+.bell_img_dark {
+    color: #4217cf;
+}
 .input_container {
     background-color: rgb(231, 231, 231);
     padding: 0.4rem;
 } 
+.input_container_dark {
+    background-color: rgb(61, 61, 61);
+}
 main.contacts_section {
     width: 100%;
-    height: calc(100vh - 184px - 3rem);
+    height: calc(100vh - 174px - 3rem);
     overflow-y: auto;
 } 
 ul {
@@ -80,6 +104,9 @@ ul {
 }
 .contact_item:hover:not(.active_chat) {
     background-color: rgb(231, 231, 231);
+}
+.contact_item_dark:hover:not(.active_chat) {
+    background-color: rgba(56, 56, 56, 0.982);
 }
 .chat_main_section {
     display: flex;
@@ -100,6 +127,9 @@ ul {
     align-items: center;
     font-size: 1.3rem;
     color: gray;
+}
+.chat_footer_dark {
+    background-color: rgb(61, 61, 61);
 }
 .chat_footer span:hover {
     cursor: pointer;
@@ -128,8 +158,15 @@ ul {
     border-radius: 10px;
     align-self: flex-end;
 }
+.msg_sent_dark {
+    background-color: rgb(21, 88, 69);
+    color: white;
+}
 .active_chat {
     background-color: #96d2ee;
+}
+.active_chat_dark {
+    background-color: #4217cf;
 }
 .msg_time {
     font-size: 0.7rem;
@@ -173,12 +210,3 @@ ul {
     border-radius: 20px;
   }
 
-  .list-enter-active,
-.list-leave-active {
-  transition: all 0.5s ease;
-}
-.list-enter-from,
-.list-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
-}
