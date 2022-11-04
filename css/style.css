@@ -163,3 +163,22 @@ ul {
     transform: translateX(20px);
     opacity: 0;
   }
+  .start_chat {
+    text-align: center;
+    margin: 0 auto;
+    color: black;
+    background-color: white;
+    padding: 0.5rem;
+    width: 200px;
+    border-radius: 20px;
+  }
+
+  .list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}

@@ -17,7 +17,7 @@
                 <div class="row pt-4">
 
                     <!-- PARTE SINISTRA  -->
-                    <div class="col-5 contact_section p-0">
+                    <div class="col-12 col-sm-12 col-md-5 d-md-block contact_section p-0" :class="{'d-none' : showChat, 'd-sm-none' : showChat}">
                         <header class="contact_header d-flex justify-content-between p-1 position-relative">
                             <div class="header_info d-flex align-items-center gap-1">
                                 <img class="proPic" :src="imgPath+user.avatar+imgExt" alt="user_avatar">
@@ -50,14 +50,14 @@
                         </div>
                         <main class="contacts_section">
                             <ul v-if="filteredContacts.length > 0">
-                                <li @click="setChat(item.id)" :class="{'active_chat' : index===activeIndex}" class="contact_item border-bottom p-2" v-for="(item, index) in filteredContacts" :key="item.id">
+                                <li @click="setChat(item.id)" :class="{'active_chat' : item.id === activeID}" class="contact_item border-bottom p-2" v-for="(item, index) in filteredContacts" :key="item.id">
                                     <div class="contact_info d-flex align-items-center gap-1">
                                         <img class="proPic" :src="imgPath+item.avatar+imgExt" alt="user_avatar">
                                         <div class="name_plus_time ps-2">
                                             <h2 class="user_name mb-0">{{ item.name }}</h2>
-                                            <span class="last_message">{{getLastItem(item).message}}</span>
+                                            <span class="last_message">{{getLastMsg(item)}}</span>
                                         </div>
-                                        <p class="ms-auto last_access">{{getLastItem(item).date}}</p>
+                                        <p v-if="item.messages.length > 0" class="ms-auto last_access">{{getLastDate(item)}}</p>
                                     </div>
                                 </li>
                             </ul>
@@ -66,26 +66,28 @@
                     </div>
 
                     <!-- PARTE DESTRA  -->
-                    <div class="col-7 chat_section p-0">
+                    <div class="col-12 col-sm-12 col-md-7 d-md-block chat_section p-0" :class="{'d-none' : !showChat, 'd-sm-none' : !showChat}">
                         <header class="chat_header d-flex justify-content-between p-1">
                             <div class="header_info d-flex align-items-center gap-1">
                                 <img class="proPic" :src="imgPath+contacts[activeIndex].avatar+imgExt" alt="user_avatar">
                                 <div class="name_plus_time">
                                     <h2 class="user_name mb-0">{{ contacts[activeIndex].name }}</h2>
-                                    <span class="last_access">Ultimo accesso: {{getLastItem(contacts[activeIndex]).date}}</span>
+                                    <span class="last_access">Ultimo accesso: {{getLastDate(contacts[activeIndex])}}</span>
                                 </div>
                             </div>
                             <div class="header_icons d-flex align-items-center gap-3 p-3">
+                                <span class="d-md-none" @click="backToChat"><i class="fa-solid fa-arrow-left"></i></span>
                                 <span><i class="fa-solid fa-magnifying-glass"></i></span>
                                 <span><i class="fa-solid fa-paperclip"></i></span>
                                 <span><i class="fa-solid fa-ellipsis-vertical"></i></span>
                             </div>
                         </header>
                         <main class="chat_main_section">
-                                <div class="my-3 d-flex flex-column position-relative" :class="value.status === 'received' ? 'msg_received' : 'msg_sent' " v-for="(value, index) in contacts[activeIndex].messages" :key="index">
+                                <div v-if="contacts[activeIndex].messages.length > 0" class="my-3 d-flex flex-column position-relative" :class="value.status === 'received' ? 'msg_received' : 'msg_sent' " v-for="(value, index) in contacts[activeIndex].messages" :key="index" ref="msg">
                                     <p class="mb-0">{{value.message}}</p>
                                     <span class="msg_time">{{value.date}}</span>
                                 </div>
+                                <div v-else class="start_chat">Inizia Nuova Chat</div>
                         </main>
                         <footer class="chat_footer">
                             <span><i class="fa-regular fa-face-smile"></i></span>

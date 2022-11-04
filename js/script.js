@@ -3,9 +3,12 @@ const {createApp} = Vue;
 const app = createApp({
 	data(){
 		return {
+            counter: 8,
+            showChat: false,
             newContact: '',
             inputReveal: false,
             activeIndex: 0,
+            activeID: 1,
             newMessage: '',
             searchBarContent: '',
             imgPath: './img/avatar',
@@ -17,7 +20,7 @@ const app = createApp({
             contacts: [
                 {
                     name: 'Michele',
-                    id: '1',
+                    id: 1,
                     avatar: '_1',
                     visible: true,
                     messages: [
@@ -40,7 +43,7 @@ const app = createApp({
                 },
                 {
                     name: 'Fabio',
-                    id: '2',
+                    id: 2,
                     avatar: '_2',
                     visible: true,
                     messages: [
@@ -63,7 +66,7 @@ const app = createApp({
                 },
                 {
                     name: 'Samuele',
-                    id: '3',
+                    id: 3,
                     avatar: '_3',
                     visible: true,
                     messages: [
@@ -86,7 +89,7 @@ const app = createApp({
                 },
                 {
                     name: 'Alessandro B.',
-                    id: '4',
+                    id: 4,
                     avatar: '_4',
                     visible: true,
                     messages: [
@@ -104,7 +107,7 @@ const app = createApp({
                 },
                 {
                     name: 'Alessandro L.',
-                    id: '5',
+                    id: 5,
                     avatar: '_5',
                     visible: true,
                     messages: [
@@ -123,7 +126,7 @@ const app = createApp({
                 },
                 {
                     name: 'Claudia',
-                    id: '6',
+                    id: 6,
                     avatar: '_6',
                     visible: true,
                     messages: [
@@ -146,7 +149,7 @@ const app = createApp({
                 },
                 {
                     name: 'Federico',
-                    id: '7',
+                    id: 7,
                     avatar: '_7',
                     visible: true,
                     messages: [
@@ -164,7 +167,7 @@ const app = createApp({
                 },
                 {
                     name: 'Davide',
-                    id: '8',
+                    id: 8,
                     avatar: '_8',
                     visible: true,
                     messages: [
@@ -193,10 +196,12 @@ const app = createApp({
             this.activeIndex = this.contacts.findIndex((item) => {
                 return item.id === id;
             })
+            this.activeID = id;
+            this.backToChat();
         },
         sendAMessage() {
-            const d = new Date();
-            let newDate = d.toLocaleTimeString('it-IT');
+            const date = new Date();
+            let newDate = date.toLocaleTimeString('it-IT');
             if(this.newMessage.length > 0){
                 this.contacts[this.activeIndex].messages.push({
                     message: this.newMessage,
@@ -205,37 +210,55 @@ const app = createApp({
                     });
 
                     setTimeout(() => {
-                        this.contacts[this.activeIndex].messages.push({message: 'Risposta Random', status: 'received', date: newDate})
+                        this.contacts[this.activeIndex].messages.push({message: 'Risposta Random', status: 'received', date: newDate});
+                        this.$nextTick(() => {
+                            const element = this.$refs.msg[this.$refs.msg.length - 1];
+                            element.scrollIntoView();
+                        });
                     }, 1500);
             }
             this.newMessage = '';
         },
-        getLastItem(item) {
+        getLastMsg(item) {
             const arrayReceived = item.messages.filter((message) => {
                 return message.status === 'received';
             })
-            return arrayReceived[arrayReceived.length - 1];
+            if(arrayReceived.length == 0){
+                return
+            } else {
+                return arrayReceived[arrayReceived.length - 1].message;
+            }
+        },
+        getLastDate(item) {
+            const arrayReceived = item.messages.filter((message) => {
+                return message.status === 'received';
+            })
+            if(arrayReceived.length == 0){
+                return
+            } else {
+                return arrayReceived[arrayReceived.length - 1].date;
+            }
         },
         toggleInput() {
             this.inputReveal = !this.inputReveal;
         },
-        // addNewChat() {
-        //     if(this.newContact.length > 0){
-        //         this.contacts.push({
-        //             name: this.newContact,
-        //             id: this.contacts.id++,
-        //             avatar: 'img',
-        //             visible: true,
-        //             messages: []
-        //         });
-        //         this.newContact = '';
-        //         this.inputReveal = false;
-        //     }
-        // }
-
-        
- 
-       
+        addNewChat() {
+            if(this.newContact.length > 0){
+                this.counter++
+                this.contacts.push({
+                    name: this.newContact,
+                    id: this.counter,
+                    avatar: '_io',
+                    visible: true,
+                    messages: []
+                });
+                this.newContact = '';
+                this.inputReveal = false;
+            }
+        },
+        backToChat(){
+            this.showChat = !this.showChat;
+        }
 	},
 	computed: {
         filteredContacts(){
@@ -244,10 +267,8 @@ const app = createApp({
                 return name.includes(this.searchBarContent.toLowerCase());
             })
         }
-
 	},
 	mounted(){
-		
 	},
 });
 app.mount('#app');
