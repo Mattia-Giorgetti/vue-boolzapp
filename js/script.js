@@ -18,6 +18,10 @@ const app = createApp({
                 name: 'Mattia',
                 avatar: '_io'
             },
+            dropDownReveal: {
+                index: false,
+                show: false
+            },
             contacts: [
                 {
                     name: 'Michele',
@@ -246,6 +250,15 @@ const app = createApp({
         toggleTheme(){
             this.dark = !this.dark;
         },
+        toggleDropDown(index){
+            if(this.dropDownReveal.index === true && this.dropDownReveal.index !== index){
+                this.dropDownReveal.show = false;
+                this.dropDownReveal.index = false;
+            } else {
+                this.dropDownReveal.show = (this.dropDownReveal.show) ? false : true;
+                this.dropDownReveal.index = index;
+            }  
+        },
         addNewChat() {
             if(this.newContact.length > 0){
                 this.counter++
@@ -262,7 +275,11 @@ const app = createApp({
         },
         backToChat(){
             this.showChat = !this.showChat;
-        }
+        },
+        removeMsg(index){
+            this.contacts[this.activeIndex].messages.splice(index, 1);
+            this.dropDownReveal.show = false;
+        },
 	},
 	computed: {
         filteredContacts(){

@@ -30,7 +30,7 @@
                                 <span><i class="fa-solid fa-ellipsis-vertical"></i></span>
                             </div>
                             <Transition name="slide-fade">
-                                <div class="input_field" v-show="inputReveal">
+                                <div class="input_field" v-show="inputReveal" :class="{'input_field_dark' : this.dark===true}">
                                     <input class="rounded-1 w-75" type="text" placeholder="Inizia Nuova Chat" v-model="newContact" @keyup.enter="addNewChat()">
                                 </div>
                             </Transition>
@@ -76,7 +76,7 @@
                                     <span class="last_access">Ultimo accesso: {{getLastDate(contacts[activeIndex])}}</span>
                                 </div>
                             </div>
-                            <div class="header_icons d-flex align-items-center gap-3 p-3">
+                            <div class="header_icons d-flex align-items-center gap-3 p-3 position-relative">
                                 <span class="d-md-none" @click="backToChat"><i class="fa-solid fa-arrow-left"></i></span>
                                 <span><i class="fa-solid fa-magnifying-glass"></i></span>
                                 <span><i class="fa-solid fa-paperclip"></i></span>
@@ -84,16 +84,25 @@
                             </div>
                         </header>
                         <main class="chat_main_section">
-                                <div v-if="contacts[activeIndex].messages.length > 0" class="my-3 d-flex flex-column" :class="{'msg_received' : value.status === 'received', 'msg_sent': value.status === 'sent', 'msg_sent_dark' : this.dark ===true && value.status === 'sent'}" v-for="(value, index) in contacts[activeIndex].messages" :key="index" ref="msg">
-                                    <p class="mb-0">{{value.message}}</p>
+                                <div v-if="contacts[activeIndex].messages.length > 0" class="my-3 d-flex flex-column position-relative" :class="{'msg_received' : value.status === 'received', 'msg_sent': value.status === 'sent', 'msg_sent_dark' : this.dark ===true && value.status === 'sent'}" v-for="(value, index) in contacts[activeIndex].messages" :key="index" ref="msg">
+                                    <div class="d-flex justify-content-between chat_msg">
+                                        <p class="mb-0">{{value.message}}</p>
+                                        <span class="my_chev" @click="toggleDropDown(index)"><i class="fa-solid fa-chevron-down"></i></span>
+                                    </div>
                                     <span class="msg_time">{{value.date}}</span>
+                                    <Transition name="slide-fade">
+                                        <div class="drop_down" :class="{'drop_down_dark' : this.dark === true}" v-show="dropDownReveal.index === index && dropDownReveal.show === true">
+                                            <p class="mb-0" @click="removeMsg(index)">Elimina messaggio</p>
+                                        </div>
+                                    </Transition>
+                                    
                                 </div>
                                 <div v-else class="start_chat">Inizia Nuova Chat</div>
                         </main>
                         <footer class="chat_footer" :class="{'chat_footer_dark' : this.dark===true}">
                             <span><i class="fa-regular fa-face-smile"></i></span>
                             <input type="text" placeholder="Scrivi un messaggio" v-model.trim="newMessage" @keyup.enter="sendAMessage()">
-                            <span class="send_msg_icon" @click="sendAMessage()" v-if="newMessage.length > 0"><i class="fa-solid fa-paper-plane"></i></span>
+                            <Transition name="slide-fade"><span class="send_msg_icon" @click="sendAMessage()" v-show="newMessage.length > 0"><i class="fa-solid fa-paper-plane"></i></span></Transition>
                             <span><i class="fa-solid fa-microphone"></i></span>
                         </footer>
                         
